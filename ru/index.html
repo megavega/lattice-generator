@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Генератор решёток для лазерной резки | SVG паттерны бесплатно</title>
+<meta name="description" content="Генерируйте параметрические решётчатые паттерны для лазерной резки МДФ, фанеры и акрила. 7 типов узоров с градиентом, компенсацией реза и экспортом SVG. Бесплатный онлайн-инструмент.">
+<meta name="keywords" content="генератор решёток, лазерная резка, SVG паттерны, соты, изометрические кубы, МДФ решётка, параметрический дизайн, компенсация реза, гироид">
+<link rel="canonical" href="https://lattice.tools/ru/">
+<link rel="alternate" hreflang="en" href="https://lattice.tools/en/">
+<link rel="alternate" hreflang="ru" href="https://lattice.tools/ru/">
+<link rel="alternate" hreflang="x-default" href="https://lattice.tools/en/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Генератор решёток для лазерной резки">
+<meta property="og:description" content="Онлайн-генератор SVG паттернов для лазерной резки. 7 типов узоров, градиент, компенсация реза.">
+<meta property="og:image" content="https://lattice.tools/og-image.png">
+<meta property="og:url" content="https://lattice.tools/ru/">
+<meta property="og:site_name" content="Lattice Generator">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Генератор решёток для лазерной резки">
+<meta name="twitter:description" content="SVG паттерны для лазерной резки. 7 узоров, градиент, компенсация реза. Бесплатно.">
+<meta name="twitter:image" content="https://lattice.tools/og-image.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Lattice Generator",
+  "description": "Free browser-based SVG lattice pattern generator for laser cutting MDF, plywood, and acrylic panels",
+  "url": "https://lattice.tools/ru/",
+  "applicationCategory": "DesignApplication",
+  "operatingSystem": "Any (browser-based)",
+  "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+  "inLanguage": ["en", "ru"],
+  "screenshot": "https://lattice.tools/og-image.png"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Что такое решётчатая панель?", "acceptedAnswer": {"@type": "Answer", "text": "Решётчатая панель — это плоский лист (МДФ, фанера, акрил) с повторяющимися геометрическими вырезами. Используется для декоративных экранов, перегородок, вентиляционных решёток и мебельных акцентов."}},
+    {"@type": "Question", "name": "Какие материалы можно резать?", "acceptedAnswer": {"@type": "Answer", "text": "Любой материал, который поддерживает ваш лазерный станок: МДФ, фанера, акрил, картон, кожа и тонкие металлы. Настройте ширину перемычек и компенсацию реза под ваш материал."}},
+    {"@type": "Question", "name": "Какое значение компенсации реза использовать?", "acceptedAnswer": {"@type": "Answer", "text": "Типичный рез CO2-лазера на МДФ 3мм — 0.15-0.25мм. Для акрила — 0.1-0.2мм. Сделайте тестовый рез квадратом, чтобы измерить фактический рез."}},
+    {"@type": "Question", "name": "Можно ли использовать паттерны коммерчески?", "acceptedAnswer": {"@type": "Answer", "text": "Да. Все сгенерированные SVG-файлы можно свободно использовать в личных и коммерческих проектах без указания авторства."}}
+  ]
+}
+</script>
+<style>
+:root{--bg:#1a1a2e;--sb:#16213e;--br:#0f3460;--ac:#e94560;--tx:#e0e0e0;--dm:#6c7a9e;--ib:#0f3460}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--tx)}
+
+/* --- NAV --- */
+.nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:18px;padding:10px 28px;background:rgba(22,33,62,.92);backdrop-filter:blur(10px);border-bottom:1px solid var(--br)}
+.nav-logo{font-size:15px;font-weight:700;color:var(--ac);letter-spacing:-.3px;text-decoration:none}
+.nav a{color:var(--dm);font-size:13px;text-decoration:none;transition:color .15s}
+.nav a:hover{color:var(--ac)}
+.nav-lang{margin-left:auto;display:flex;gap:8px}
+.nav-lang a{padding:3px 8px;border-radius:4px;font-size:12px;font-weight:600;border:1px solid var(--br)}
+.nav-lang a.act{background:var(--ac);color:#fff;border-color:var(--ac)}
+
+/* --- LANDING SECTIONS --- */
+.land{max-width:1100px;margin:0 auto;padding:0 24px}
+
+/* hero */
+.hero{display:flex;align-items:center;gap:48px;padding:72px 0 56px}
+.hero-txt{flex:1;min-width:280px}
+.hero h1{font-size:clamp(28px,4vw,42px);line-height:1.15;font-weight:800;margin-bottom:16px}
+.hero h1 em{font-style:normal;color:var(--ac)}
+.hero p{font-size:16px;color:var(--dm);line-height:1.6;margin-bottom:28px;max-width:480px}
+.hero-vis{flex:1;min-width:280px;max-width:480px;border-radius:12px;overflow:hidden;border:1px solid var(--br)}
+.hero-vis svg{display:block;width:100%}
+.cta{display:inline-block;padding:13px 32px;background:var(--ac);color:#fff;border-radius:6px;font-size:15px;font-weight:700;text-decoration:none;transition:filter .15s}
+.cta:hover{filter:brightness(1.15)}
+
+/* sections */
+.sec-l{padding:56px 0}
+.sec-l h2{font-size:26px;font-weight:700;margin-bottom:8px}
+.sec-l .sub{color:var(--dm);font-size:15px;margin-bottom:32px;max-width:600px}
+.divider{border:none;border-top:1px solid var(--br);margin:0}
+
+/* pattern cards */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.pcard{background:var(--sb);border:1px solid var(--br);border-radius:8px;overflow:hidden;transition:border-color .2s}
+.pcard:hover{border-color:var(--ac)}
+.pcard-img{aspect-ratio:4/3;background:#111;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.pcard-img svg{width:100%;height:100%}
+.pcard-body{padding:12px 14px}
+.pcard-body h3{font-size:14px;font-weight:600;margin-bottom:4px}
+.pcard-body p{font-size:12px;color:var(--dm);line-height:1.4}
+
+/* features */
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.fcard{padding:20px;background:var(--sb);border:1px solid var(--br);border-radius:8px}
+.fcard h3{font-size:14px;font-weight:600;margin-bottom:6px;color:var(--ac)}
+.fcard p{font-size:13px;color:var(--dm);line-height:1.5}
+
+/* how-to */
+.steps{display:flex;gap:24px;flex-wrap:wrap}
+.step{flex:1;min-width:200px;padding:20px;background:var(--sb);border:1px solid var(--br);border-radius:8px;text-align:center}
+.step-n{width:36px;height:36px;line-height:36px;border-radius:50%;background:var(--ac);color:#fff;font-weight:700;font-size:16px;margin:0 auto 12px}
+.step h3{font-size:14px;margin-bottom:6px}
+.step p{font-size:13px;color:var(--dm);line-height:1.4}
+
+/* faq */
+.faq details{border-bottom:1px solid var(--br);padding:14px 0}
+.faq summary{cursor:pointer;font-size:15px;font-weight:600;list-style:none;display:flex;align-items:center;gap:10px}
+.faq summary::before{content:'+';color:var(--ac);font-size:20px;font-weight:700;min-width:18px;transition:transform .2s}
+.faq details[open] summary::before{content:'\2212'}
+.faq .ans{padding:10px 0 4px 28px;font-size:14px;color:var(--dm);line-height:1.6}
+
+/* --- GENERATOR --- */
+#generator{height:100vh;display:flex;border-top:2px solid var(--ac)}
+.sidebar{width:310px;min-width:310px;background:var(--sb);border-right:1px solid var(--br);overflow-y:auto;padding:16px}
+.sidebar::-webkit-scrollbar{width:6px}
+.sidebar::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+.logo{font-size:17px;font-weight:700;color:var(--ac);margin-bottom:18px;letter-spacing:-.3px;display:none}
+.sec{margin-bottom:14px}
+.sec-t{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--dm);margin-bottom:6px;font-weight:600}
+.f{margin-bottom:8px}
+.f label{display:flex;justify-content:space-between;font-size:12px;color:#aab;margin-bottom:2px}
+.f .v{color:var(--ac);font-weight:700;font-variant-numeric:tabular-nums;min-width:40px;text-align:right}
+.f input[type=number],.f select{width:100%;padding:5px 7px;background:var(--ib);border:1px solid var(--br);color:#fff;border-radius:4px;font-size:13px;outline:none}
+.f input[type=number]:focus,.f select:focus{border-color:var(--ac)}
+.f input[type=range]{width:100%;accent-color:var(--ac);cursor:pointer}
+.f select{cursor:pointer}
+.row{display:flex;gap:8px}
+.row .f{flex:1}
+.btns{display:flex;flex-direction:column;gap:6px;margin-top:16px}
+.btn{padding:9px 14px;border:none;border-radius:5px;font-size:13px;cursor:pointer;font-weight:600;transition:filter .12s}
+.btn:hover{filter:brightness(1.15)}
+.btn:active{filter:brightness(.9)}
+.b1{background:var(--ac);color:#fff}
+.b2{background:transparent;color:var(--tx);border:1px solid var(--br)}
+.stats{font-size:11px;color:var(--dm);margin-top:12px;line-height:1.7}
+.stats b{color:var(--ac);font-weight:600}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.toolbar{display:flex;align-items:center;gap:10px;padding:6px 16px;background:#141428;border-bottom:1px solid var(--br);font-size:11px;color:var(--dm)}
+.toolbar input[type=range]{width:140px;accent-color:var(--ac)}
+.toolbar .zv{min-width:36px;color:var(--ac);font-weight:600}
+.prev{flex:1;overflow:auto;display:flex;align-items:flex-start;justify-content:center;padding:20px}
+.prev svg{display:block;flex-shrink:0}
+.hint{color:#444;font-size:14px;align-self:center}
+
+/* footer */
+.foot{padding:32px 28px;text-align:center;color:var(--dm);font-size:12px;border-top:1px solid var(--br)}
+.foot a{color:var(--ac);text-decoration:none}
+
+/* responsive */
+@media(max-width:768px){
+  .hero{flex-direction:column;padding:48px 0 36px;gap:32px}
+  .hero-vis{max-width:100%}
+  #generator{height:auto;flex-direction:column;min-height:100vh}
+  .sidebar{width:100%;min-width:auto;max-height:50vh;border-right:none;border-bottom:1px solid var(--br)}
+  .main{min-height:50vh}
+  .steps{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="#" class="nav-logo">Lattice Generator</a>
+  <a href="#patterns">Паттерны</a>
+  <a href="#features">Возможности</a>
+  <a href="#how-to">Как использовать</a>
+  <a href="#faq">FAQ</a>
+  <a href="#generator">Генератор</a>
+  <div class="nav-lang">
+    <a href="/en/">EN</a>
+    <a href="/ru/" class="act">RU</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero land" id="top">
+  <div class="hero-txt">
+    <h1>Бесплатный генератор <em>решётчатых паттернов</em> для лазерной резки</h1>
+    <p>Создавайте параметрические SVG-паттерны для панелей из МДФ, фанеры и акрила. 7 типов узоров, управление градиентом, компенсация реза. Работает в браузере, установка не нужна.</p>
+    <a href="#generator" class="cta">Начать генерацию</a>
+  </div>
+  <div class="hero-vis" id="heroVis"></div>
+</section>
+
+<hr class="divider land">
+
+<!-- PATTERNS -->
+<section class="sec-l land" id="patterns">
+  <h2>7 типов паттернов</h2>
+  <p class="sub">От классических сот до органических гироидных поверхностей. Каждый паттерн поддерживает динамические градиенты, компенсацию реза, круглые и прямоугольные панели.</p>
+  <div class="pgrid">
+    <div class="pcard"><div class="pcard-img" id="pcCube"></div><div class="pcard-body"><h3>Изометрические кубы</h3><p>3D-иллюзия из трёх ромбов в каждой гексагональной ячейке</p></div></div>
+    <div class="pcard"><div class="pcard-img" id="pcHoney"></div><div class="pcard-body"><h3>Соты</h3><p>Классическая гексагональная сетка с равномерными или градиентными перемычками</p></div></div>
+    <div class="pcard"><div class="pcard-img" id="pcParq"></div><div class="pcard-body"><h3>Паркет</h3><p>Чередование горизонтальных и вертикальных прямоугольных прорезей</p></div></div>
+    <div class="pcard"><div class="pcard-img" id="pcHeart"></div><div class="pcard-body"><h3>Сердца</h3><p>Настраиваемые сердца с ориентацией и градиентом размера</p></div></div>
+    <div class="pcard"><div class="pcard-img" id="pcStar"></div><div class="pcard-body"><h3>Звёзды</h3><p>Звёзды от 4 до 8 лучей с регулировкой длины луча</p></div></div>
+    <div class="pcard"><div class="pcard-img" id="pcSlats"></div><div class="pcard-body"><h3>Кубические ламели</h3><p>Прорези-параллелограммы внутри граней изометрических кубов</p></div></div>
+    <div class="pcard"><div class="pcard-img" id="pcGyroid"></div><div class="pcard-body"><h3>Гироид</h3><p>Органический паттерн минимальной поверхности с плавными кривыми</p></div></div>
+  </div>
+</section>
+
+<hr class="divider land">
+
+<!-- FEATURES -->
+<section class="sec-l land" id="features">
+  <h2>Возможности</h2>
+  <p class="sub">Всё, что нужно для перехода от дизайна к лазерному станку за секунды.</p>
+  <div class="fgrid">
+    <div class="fcard"><h3>Динамические градиенты</h3><p>Центральный, краевой, радиальный и направленный градиенты. Управление шириной перемычек или размером элементов.</p></div>
+    <div class="fcard"><h3>Компенсация реза</h3><p>Встроенная компенсация kerf гарантирует точное соответствие размеров. Настройка от 0 до 1 мм.</p></div>
+    <div class="fcard"><h3>Круглые и прямоугольные панели</h3><p>Переключение между прямоугольными панелями со скруглением углов и круглыми панелями с заданным диаметром.</p></div>
+    <div class="fcard"><h3>Чистые края</h3><p>Автоматическое удаление элементов паттерна, выходящих за границы панели, для аккуратного края.</p></div>
+    <div class="fcard"><h3>Двойной экспорт SVG</h3><p>Скачайте визуальный превью SVG или SVG для резки с красными контурами и обводкой панели.</p></div>
+    <div class="fcard"><h3>Без установки</h3><p>Работает полностью в браузере. Без аккаунтов, загрузок и серверной обработки. Ваши дизайны остаются приватными.</p></div>
+  </div>
+</section>
+
+<hr class="divider land">
+
+<!-- HOW TO -->
+<section class="sec-l land" id="how-to">
+  <h2>Как использовать</h2>
+  <p class="sub">Три шага от идеи до файла для лазера.</p>
+  <div class="steps">
+    <div class="step"><div class="step-n">1</div><h3>Выберите паттерн</h3><p>Выберите тип узора и задайте размеры панели (ширина, высота или диаметр для круглых).</p></div>
+    <div class="step"><div class="step-n">2</div><h3>Настройте параметры</h3><p>Отрегулируйте размер ячейки, ширину перемычек, градиент, компенсацию реза и параметры узора.</p></div>
+    <div class="step"><div class="step-n">3</div><h3>Экспортируйте SVG</h3><p>Скачайте SVG для резки на лазерном станке или превью SVG для визуализации дизайна.</p></div>
+  </div>
+</section>
+
+<hr class="divider land">
+
+<!-- FAQ -->
+<section class="sec-l land faq" id="faq">
+  <h2>FAQ</h2>
+  <p class="sub">Частые вопросы о решётчатых панелях и этом инструменте.</p>
+  <details><summary>Что такое решётчатая панель?</summary><div class="ans">Решётчатая панель — это плоский лист (МДФ, фанера, акрил) с повторяющимися геометрическими вырезами. Используется для декоративных экранов, перегородок, вентиляционных решёток, экранов радиаторов и мебельных акцентов.</div></details>
+  <details><summary>Какие материалы можно резать?</summary><div class="ans">Любой материал, который поддерживает ваш лазерный станок: МДФ, фанера, акрил, картон, кожа и тонкие металлы. Настройте ширину перемычек и компенсацию реза под толщину материала и параметры лазера.</div></details>
+  <details><summary>Какое значение компенсации реза использовать?</summary><div class="ans">Типичный рез CO2-лазера на МДФ 3 мм — 0.15 - 0.25 мм. Для акрила — 0.1 - 0.2 мм. Сделайте тестовый рез квадратом, чтобы измерить фактическую ширину реза.</div></details>
+  <details><summary>Можно ли использовать паттерны коммерчески?</summary><div class="ans">Да. Все сгенерированные SVG-файлы можно свободно использовать в личных и коммерческих проектах без указания авторства.</div></details>
+  <details><summary>Какой формат файла нужен для лазерного станка?</summary><div class="ans">Большинство лазерных станков принимают SVG-файлы напрямую. SVG для резки использует красные контуры толщиной 0.1 мм — стандартное соглашение для LightBurn, RDWorks и LaserGRBL.</div></details>
+</section>
+
+<hr class="divider land">
+
+<!-- GENERATOR -->
+<section id="generator">
+<aside class="sidebar">
+  <div class="sec">
+    <div class="sec-t">Panel (mm)</div>
+    <div class="f" style="margin-bottom:6px">
+      <label style="cursor:pointer;justify-content:flex-start;gap:6px">
+        <input type="checkbox" id="iRound" style="accent-color:var(--ac)"> Round panel
+      </label>
+    </div>
+    <div class="row" id="fRect">
+      <div class="f"><label>Width <span class="v" id="vW">600</span></label>
+        <input type="number" id="iW" value="600" min="20" max="3000" step="10"></div>
+      <div class="f"><label>Height <span class="v" id="vH">300</span></label>
+        <input type="number" id="iH" value="300" min="20" max="3000" step="10"></div>
+    </div>
+    <div class="f" id="fDiam" style="display:none"><label>Diameter <span class="v" id="vD">300</span></label>
+      <input type="number" id="iD" value="300" min="20" max="3000" step="10"></div>
+  </div>
+  <div class="sec">
+    <div class="sec-t">Pattern</div>
+    <div class="f"><label>Type</label>
+      <select id="iP">
+        <option value="cube" selected>Isometric Cubes</option>
+        <option value="honeycomb">Honeycomb</option>
+        <option value="parquet">Parquet</option>
+        <option value="hearts">Hearts</option>
+        <option value="stars">Stars</option>
+        <option value="cubeslats">Cube Slats</option>
+        <option value="gyroid">Gyroid</option>
+      </select>
+    </div>
+    <div class="f" id="fHF" style="display:none"><label>Orientation</label>
+      <select id="iHF">
+        <option value="down">All &#9829; &#8595; tip down</option>
+        <option value="up">All &#9829; &#8593; tip up</option>
+        <option value="alt">&#8597; Alternate per heart</option>
+        <option value="row" selected>&#8597; Alternate per row</option>
+        <option value="half">&#8597; Top half &#8593; / Bottom half &#8595;</option>
+      </select>
+    </div>
+    <div class="f"><label>Cell radius (mm) <span class="v" id="vC">15</span></label>
+      <input type="range" id="iC" value="15" min="3" max="50" step="0.5"></div>
+    <div class="f hctl" style="display:none"><label>Bump radius <span class="v" id="vHR">0.48</span></label>
+      <input type="range" id="iHR" value="0.48" min="0.15" max="0.8" step="0.01"></div>
+    <div class="f hctl" style="display:none"><label>Bump Y offset <span class="v" id="vHB">-0.15</span></label>
+      <input type="range" id="iHB" value="-0.15" min="-0.6" max="0.3" step="0.01"></div>
+    <div class="f hctl" style="display:none"><label>Tip Y offset <span class="v" id="vHT">0.72</span></label>
+      <input type="range" id="iHT" value="0.72" min="0.2" max="1.2" step="0.01"></div>
+    <div class="f hctl" style="display:none"><label>Bump spread <span class="v" id="vHS">0.8</span></label>
+      <input type="range" id="iHS" value="0.8" min="0.6" max="1" step="0.01"></div>
+    <div class="f hctl" style="display:none"><label>Row spacing <span class="v" id="vHRS">1</span></label>
+      <input type="range" id="iHRS" value="1" min="0.5" max="3" step="0.05"></div>
+    <div class="f hctl" style="display:none"><label>Frequency <span class="v" id="vHFR">1</span></label>
+      <input type="range" id="iHFR" value="1" min="0.5" max="3" step="0.05"></div>
+    <div class="f hctl" style="display:none;margin-top:2px">
+      <label style="cursor:pointer;justify-content:flex-start;gap:6px">
+        <input type="checkbox" id="iHDynR" style="accent-color:var(--ac)"> Dynamic row spacing
+      </label>
+    </div>
+    <div class="f hctl" style="display:none;margin-top:2px">
+      <label style="cursor:pointer;justify-content:flex-start;gap:6px">
+        <input type="checkbox" id="iHDynF" style="accent-color:var(--ac)"> Dynamic frequency
+      </label>
+    </div>
+    <div class="f sctl" style="display:none"><label>Points <span class="v" id="vSP">5</span></label>
+      <input type="range" id="iSP" value="5" min="4" max="8" step="1"></div>
+    <div class="f sctl" style="display:none"><label>Ray length <span class="v" id="vSRL">0.5</span></label>
+      <input type="range" id="iSRL" value="0.5" min="0.15" max="0.85" step="0.01"></div>
+    <div class="f csctl" style="display:none"><label>Slots per face <span class="v" id="vCSN">3</span></label>
+      <input type="range" id="iCSN" value="3" min="1" max="5" step="1"></div>
+    <div class="f csctl" style="display:none"><label>Slot width <span class="v" id="vCSR">0.8</span></label>
+      <input type="range" id="iCSR" value="0.8" min="0.15" max="1" step="0.05"></div>
+    <div class="f csctl" style="display:none"><label>Edge margin <span class="v" id="vCSM">0.1</span></label>
+      <input type="range" id="iCSM" value="0.1" min="0" max="0.35" step="0.01"></div>
+  </div>
+  <div class="sec" id="secBridge">
+    <div class="sec-t" id="secBridgeT">Bridge (dynamic)</div>
+    <div class="f" id="fBrN"><label>Min bridge (mm) <span class="v" id="vN">1.5</span></label>
+      <input type="range" id="iN" value="1.5" min="0.3" max="25" step="0.1"></div>
+    <div class="f" id="fBrX"><label>Max bridge (mm) <span class="v" id="vX">6</span></label>
+      <input type="range" id="iX" value="6" min="0.3" max="25" step="0.1"></div>
+    <div class="f" id="fSzMin" style="display:none"><label>Min size <span class="v" id="vHSz">0.3</span></label>
+      <input type="range" id="iHSz" value="0.3" min="0" max="0.95" step="0.05"></div>
+    <div class="f"><label>Gradient</label>
+      <select id="iG">
+        <option value="uniform">Uniform (max)</option>
+        <option value="center-v" selected>&#8597; Center thick</option>
+        <option value="edges-v">&#8597; Edges thick</option>
+        <option value="top-bottom">&#8595; Top thick &#8594; Bottom thin</option>
+        <option value="bottom-top">&#8593; Bottom thick &#8594; Top thin</option>
+        <option value="center-r">&#9678; Radial: center thick</option>
+        <option value="edges-r">&#9678; Radial: edges thick</option>
+      </select>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-t">Frame</div>
+    <div class="row">
+      <div class="f"><label>Border <span class="v" id="vB">8</span></label>
+        <input type="range" id="iB" value="8" min="0" max="30" step="0.5"></div>
+      <div class="f" id="fCorners"><label>Corners <span class="v" id="vR">3</span></label>
+        <input type="range" id="iR" value="3" min="0" max="20" step="0.5"></div>
+    </div>
+    <div class="f" style="margin-top:2px">
+      <label style="cursor:pointer;justify-content:flex-start;gap:6px">
+        <input type="checkbox" id="iSnap" checked style="accent-color:var(--ac)"> Clean edges
+      </label>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-t">Laser</div>
+    <div class="f"><label>Kerf (mm) <span class="v" id="vK">0</span></label>
+      <input type="range" id="iK" value="0" min="0" max="1" step="0.02"></div>
+  </div>
+  <div class="btns">
+    <button class="btn b1" onclick="run()">Generate</button>
+    <button class="btn b2" onclick="dl('preview')">&#11015; Preview SVG</button>
+    <button class="btn b2" onclick="dl('cut')">&#11015; Cutting SVG (laser)</button>
+  </div>
+  <div class="stats" id="stats"></div>
+</aside>
+
+<div class="main">
+  <div class="toolbar">
+    <span>Zoom</span>
+    <input type="range" id="iZ" value="100" min="10" max="500" step="5">
+    <span class="zv" id="vZ">100%</span>
+    <span style="margin-left:auto;cursor:pointer" onclick="autoFit()" title="Fit to window">&#9634; Fit</span>
+  </div>
+  <div class="prev" id="prev">
+    <span class="hint">Adjust parameters and click Generate</span>
+  </div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="foot">
+  Lattice Generator &mdash; Бесплатный инструмент для энтузиастов лазерной резки.
+  <a href="/en/">&#127468;&#127463; English version</a>
+</footer>
+
+<script src="/generator.js"></script>
+<script>
+const $=id=>document.getElementById(id);
+
+function P(){
+  const circ=$('iRound').checked;
+  const d=circ?Math.max(20,+$('iD').value||300):0;
+  return{
+    W:circ?d:Math.max(20,+$('iW').value||600),H:circ?d:Math.max(20,+$('iH').value||300),
+    circ,
+    R:Math.max(2,+$('iC').value||15),
+    mn:Math.max(.1,+$('iN').value||1.5),mx:Math.max(.1,+$('iX').value||6),
+    gr:$('iG').value,
+    brd:Math.max(0,+$('iB').value||0),rad:Math.max(0,+$('iR').value||0),
+    kerf:Math.max(0,+$('iK').value||0),
+    snap:$('iSnap').checked,
+    pat:$('iP').value,
+    hflip:$('iHF').value,
+    hhr:+$('iHR').value,
+    hby:+$('iHB').value,
+    hty:+$('iHT').value,
+    hsp:+$('iHS').value,
+    hrs:+$('iHRS').value,
+    hfr:+$('iHFR').value,
+    hdynR:$('iHDynR').checked,
+    hdynF:$('iHDynF').checked,
+    hszMin:+$('iHSz').value,
+    spts:+$('iSP').value,
+    srl:+$('iSRL').value,
+    csn:+$('iCSN').value,
+    csr:+$('iCSR').value,
+    csm:+$('iCSM').value,
+    gsz:0.13,
+    csw:0.5
+  };
+}
+
+function run(){
+  const p=P();
+  if(p.brd*2>=p.W||p.brd*2>=p.H){$('prev').innerHTML='<span class="hint">Border too large</span>';return}
+  const t0=performance.now();
+  const r=gen(p.W,p.H,p.R,p.mn,p.mx,p.gr,p.brd,p.rad,p.kerf,p.snap,p.pat,p.hflip,p.hhr,p.hby,p.hty,p.hsp,p.hrs,p.hfr,p.hszMin,p.hdynR,p.hdynF,p.spts,p.srl,p.csn,p.csr,p.csm,p.gsz,p.csw,p.circ);
+  const dt=performance.now()-t0;
+  LCirc=p.circ;
+  $('prev').innerHTML=svg(r.paths,r.lines,p.W,p.H,p.rad,'inline',r.csw,p.circ);
+  autoFit();
+  const cnt=r.paths.length+r.lines.length;
+  $('stats').innerHTML=`Cuts: <b>${cnt}</b> &nbsp;|&nbsp; <b>${dt.toFixed(0)}</b>ms &nbsp;|&nbsp; ${p.circ?'⌀'+p.W:p.W+'×'+p.H}mm`;
+}
+
+function dl(mode){
+  if(!LP.length&&!LL.length)run();
+  const s=svg(LP,LL,LW,LH,LR,mode,0.5,LCirc);
+  const b=new Blob([s],{type:'image/svg+xml'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(b);
+  a.download=mode==='cut'?'lattice_cutting.svg':'lattice_preview.svg';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);
+  URL.revokeObjectURL(a.href);
+}
+
+function applyZoom(){
+  const z=+$('iZ').value/100,el=$('prev').querySelector('svg');
+  if(!el||!LW)return;
+  el.style.width=(LW*z)+'px';el.style.height=(LH*z)+'px';
+  $('vZ').textContent=Math.round(z*100)+'%';
+}
+
+function autoFit(){
+  const c=$('prev');if(!LW)return;
+  const z=Math.min((c.clientWidth-40)/LW,(c.clientHeight-40)/LH,5);
+  $('iZ').value=Math.round(Math.max(10,z*100));
+  applyZoom();
+}
+
+/* bindings */
+const vals={iW:'vW',iH:'vH',iC:'vC',iN:'vN',iX:'vX',iB:'vB',iR:'vR',iK:'vK'};
+let _t;
+Object.entries(vals).forEach(([i,v])=>{
+  $(i).addEventListener('input',()=>{$(v).textContent=$(i).value;clearTimeout(_t);_t=setTimeout(run,400)});
+});
+$('iG').addEventListener('change',()=>{clearTimeout(_t);_t=setTimeout(run,100)});
+$('iP').addEventListener('change',()=>{const v=$('iP').value,h=v==='hearts',s=v==='stars',cs=v==='cubeslats';$('fHF').style.display=h?'':'none';document.querySelectorAll('.hctl').forEach(e=>e.style.display=h?'':'none');document.querySelectorAll('.sctl').forEach(e=>e.style.display=s?'':'none');document.querySelectorAll('.csctl').forEach(e=>e.style.display=cs?'':'none');$('fBrN').style.display=(h||s)?'none':'';$('fBrX').style.display=(h||s)?'none':'';$('fSzMin').style.display=(h||s)?'':'none';$('secBridgeT').textContent=(h||s)?'Size gradient':'Bridge (dynamic)';clearTimeout(_t);_t=setTimeout(run,100)});
+[['iHR','vHR'],['iHB','vHB'],['iHT','vHT'],['iHS','vHS'],['iHRS','vHRS'],['iHFR','vHFR'],['iHSz','vHSz'],['iSP','vSP'],['iSRL','vSRL'],['iCSN','vCSN'],['iCSR','vCSR'],['iCSM','vCSM']].forEach(([i,v])=>{
+  $(i).addEventListener('input',()=>{$(v).textContent=$(i).value;clearTimeout(_t);_t=setTimeout(run,400)});
+});
+$('iHF').addEventListener('change',()=>{clearTimeout(_t);_t=setTimeout(run,100)});
+$('iHDynR').addEventListener('change',()=>{clearTimeout(_t);_t=setTimeout(run,100)});
+$('iHDynF').addEventListener('change',()=>{clearTimeout(_t);_t=setTimeout(run,100)});
+$('iSnap').addEventListener('change',()=>{clearTimeout(_t);_t=setTimeout(run,100)});
+$('iRound').addEventListener('change',()=>{const c=$('iRound').checked;$('fRect').style.display=c?'none':'';$('fDiam').style.display=c?'':'none';$('fCorners').style.display=c?'none':'';clearTimeout(_t);_t=setTimeout(run,100)});
+$('iD').addEventListener('input',()=>{$('vD').textContent=$('iD').value;clearTimeout(_t);_t=setTimeout(run,400)});
+$('iZ').addEventListener('input',applyZoom);
+$('prev').addEventListener('wheel',e=>{
+  if(!LW)return;
+  e.preventDefault();
+  const z=$('iZ');z.value=Math.max(10,Math.min(500,+z.value+(e.deltaY<0?15:-15)));
+  applyZoom();
+},{passive:false});
+window.addEventListener('resize',()=>{if(LP.length)autoFit()});
+
+/* Generate pattern previews for landing cards */
+function genCard(el,pat,extra){
+  const p={W:160,H:120,R:8,mn:1,mx:3,gr:'center-r',brd:4,rad:2,kerf:0,snap:true,circ:false,...extra};
+  const r=gen(p.W,p.H,p.R,p.mn,p.mx,p.gr,p.brd,p.rad,p.kerf,p.snap,pat,'row',0.48,-0.15,0.72,0.8,1,1,0.3,false,false,5,0.5,3,0.8,0.1,0.13,0.5,false);
+  el.innerHTML=svg(r.paths,r.lines,p.W,p.H,p.rad,'inline',r.csw,false);
+}
+genCard($('pcCube'),'cube');
+genCard($('pcHoney'),'honeycomb');
+genCard($('pcParq'),'parquet');
+genCard($('pcHeart'),'hearts');
+genCard($('pcStar'),'stars');
+genCard($('pcSlats'),'cubeslats');
+genCard($('pcGyroid'),'gyroid',{R:10,mn:1.5,mx:4});
+
+/* Hero preview */
+(function(){
+  const r=gen(400,240,12,1.5,5,'center-r',6,3,0,true,'cube','row',0.48,-0.15,0.72,0.8,1,1,0.3,false,false,5,0.5,3,0.8,0.1,0.13,0.5,false);
+  $('heroVis').innerHTML=svg(r.paths,r.lines,400,240,3,'inline',0.5,false);
+})();
+
+run();
+</script>
+</body>
+</html>

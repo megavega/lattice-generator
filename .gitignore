@@ -1,0 +1,11 @@
+# Dev tools
+.claude/
+*.py
+__pycache__/
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Old standalone version
+lattice.html
