@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: https://lattice.tools/sitemap.xml
+Sitemap: https://meshbox.dev/sitemap.xml
