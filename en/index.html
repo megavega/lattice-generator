@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Free Lattice Pattern Generator for Laser Cutting | SVG Patterns</title>
-<meta name="description" content="Generate parametric lattice patterns for laser cutting MDF, plywood, and acrylic. 7 pattern types with gradient control, kerf compensation, and SVG export. Free online tool.">
+<meta name="description" content="Generate parametric lattice patterns for laser cutting MDF, plywood, and acrylic. 8 pattern types with gradient control, kerf compensation, and SVG export. Free online tool.">
 <meta name="keywords" content="lattice generator, laser cutting patterns, SVG patterns, honeycomb pattern, isometric cubes, MDF lattice, parametric design, kerf compensation, gyroid pattern">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="canonical" href="https://meshbox.dev/en/">
@@ -13,13 +13,13 @@
 <link rel="alternate" hreflang="x-default" href="https://meshbox.dev/en/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Free Lattice Pattern Generator for Laser Cutting">
-<meta property="og:description" content="Browser-based SVG lattice pattern generator with 7 pattern types, gradient control, and kerf compensation. No install needed.">
+<meta property="og:description" content="Browser-based SVG lattice pattern generator with 8 pattern types, gradient control, and kerf compensation. No install needed.">
 <meta property="og:image" content="https://meshbox.dev/og-image.png">
 <meta property="og:url" content="https://meshbox.dev/en/">
 <meta property="og:site_name" content="Lattice Generator">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Free Lattice Pattern Generator for Laser Cutting">
-<meta name="twitter:description" content="Generate SVG lattice patterns for laser cutting. 7 patterns, gradient control, kerf compensation.">
+<meta name="twitter:description" content="Generate SVG lattice patterns for laser cutting. 8 patterns, gradient control, kerf compensation.">
 <meta name="twitter:image" content="https://meshbox.dev/og-image.png">
 <script type="application/ld+json">
 {
@@ -114,6 +114,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 
 /* --- GENERATOR --- */
 #generator{height:100vh;display:flex;border-top:2px solid var(--ac)}
+.shape-sw{display:flex;gap:6px}
+.shape-btn{flex:1;height:42px;border:2px solid var(--br);border-radius:8px;background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:border-color .2s,background .2s;color:var(--dm);font-size:12px;font-weight:600;font-family:inherit}
+.shape-btn.act{border-color:var(--ac);background:rgba(233,69,96,.12);color:var(--ac)}
+.shape-btn svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2}
 .sidebar{width:310px;min-width:310px;background:var(--sb);border-right:1px solid var(--br);overflow-y:auto;padding:16px}
 .sidebar::-webkit-scrollbar{width:6px}
 .sidebar::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
@@ -138,11 +142,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .stats{font-size:11px;color:var(--dm);margin-top:12px;line-height:1.7}
 .stats b{color:var(--ac);font-weight:600}
 .main{flex:1;display:flex;flex-direction:column;overflow:hidden}
-.toolbar{display:flex;align-items:center;gap:10px;padding:6px 16px;background:#141428;border-bottom:1px solid var(--br);font-size:11px;color:var(--dm)}
-.toolbar input[type=range]{width:140px;accent-color:var(--ac)}
-.toolbar .zv{min-width:36px;color:var(--ac);font-weight:600}
-.prev{flex:1;overflow:auto;display:flex;align-items:flex-start;justify-content:center;padding:20px}
-.prev svg{display:block;flex-shrink:0}
+.prev{flex:1;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:20px}
+.prev svg{display:block;max-width:100%;max-height:100%;width:auto;height:auto}
 .hint{color:#444;font-size:14px;align-self:center}
 
 /* footer */
@@ -180,7 +181,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 <section class="hero land" id="top">
   <div class="hero-txt">
     <h1>Free <em>Lattice Pattern</em> Generator for Laser Cutting</h1>
-    <p>Create parametric SVG patterns for MDF, plywood, and acrylic panels. 7 pattern types, gradient control, kerf compensation. Works in your browser, no install needed.</p>
+    <p>Create parametric SVG patterns for MDF, plywood, and acrylic panels. 8 pattern types, gradient control, kerf compensation. Works in your browser, no install needed.</p>
     <a href="#generator" class="cta">Start Generating</a>
   </div>
   <div class="hero-vis" id="heroVis"></div>
@@ -190,7 +191,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 
 <!-- PATTERNS -->
 <section class="sec-l land" id="patterns">
-  <h2>7 Pattern Types</h2>
+  <h2>8 Pattern Types</h2>
   <p class="sub">From classic honeycomb to organic gyroid surfaces. Each pattern supports dynamic gradients, kerf compensation, and round or rectangular panels.</p>
   <div class="pgrid">
     <div class="pcard"><div class="pcard-img" id="pcCube"></div><div class="pcard-body"><h3>Isometric Cubes</h3><p>3D cube illusion from three rhombuses per hex cell</p></div></div>
@@ -200,6 +201,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
     <div class="pcard"><div class="pcard-img" id="pcStar"></div><div class="pcard-body"><h3>Stars</h3><p>4 to 8-pointed stars with adjustable ray length</p></div></div>
     <div class="pcard"><div class="pcard-img" id="pcSlats"></div><div class="pcard-body"><h3>Cube Slats</h3><p>Parallelogram slot cutouts within isometric cube faces</p></div></div>
     <div class="pcard"><div class="pcard-img" id="pcGyroid"></div><div class="pcard-body"><h3>Gyroid</h3><p>Organic minimal surface pattern with flowing curves</p></div></div>
+    <div class="pcard"><div class="pcard-img" id="pcHilbert"></div><div class="pcard-body"><h3>Hilbert Curve</h3><p>Space-filling fractal curve — flexible living hinge</p></div></div>
   </div>
 </section>
 
@@ -251,11 +253,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 <section id="generator">
 <aside class="sidebar">
   <div class="sec">
-    <div class="sec-t">Panel (mm)</div>
-    <div class="f" style="margin-bottom:6px">
-      <label style="cursor:pointer;justify-content:flex-start;gap:6px">
-        <input type="checkbox" id="iRound" style="accent-color:var(--ac)"> Round panel
-      </label>
+    <div class="sec-t">Panel</div>
+    <div class="shape-sw" style="margin-bottom:8px">
+      <button class="shape-btn act" id="btnRect"><svg viewBox="0 0 20 20"><rect x="2" y="4" width="16" height="12" rx="2"/></svg>Rectangle</button>
+      <button class="shape-btn" id="btnCirc"><svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="8"/></svg>Circle</button>
     </div>
     <div class="row" id="fRect">
       <div class="f"><label>Width <span class="v" id="vW">600</span></label>
@@ -277,6 +278,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
         <option value="stars">Stars</option>
         <option value="cubeslats">Cube Slats</option>
         <option value="gyroid">Gyroid</option>
+        <option value="hilbert">Hilbert Curve</option>
       </select>
     </div>
     <div class="f" id="fHF" style="display:none"><label>Orientation</label>
@@ -371,12 +373,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 </aside>
 
 <div class="main">
-  <div class="toolbar">
-    <span>Zoom</span>
-    <input type="range" id="iZ" value="100" min="10" max="500" step="5">
-    <span class="zv" id="vZ">100%</span>
-    <span style="margin-left:auto;cursor:pointer" onclick="autoFit()" title="Fit to window">&#9634; Fit</span>
-  </div>
   <div class="prev" id="prev">
     <span class="hint">Adjust parameters and click Generate</span>
   </div>
@@ -393,8 +389,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 <script>
 const $=id=>document.getElementById(id);
 
+let _circ=false;
+function setShape(c){
+  _circ=c;
+  $('btnRect').classList.toggle('act',!c);
+  $('btnCirc').classList.toggle('act',c);
+  $('fRect').style.display=c?'none':'';
+  $('fDiam').style.display=c?'':'none';
+  $('fCorners').style.display=c?'none':'';
+  clearTimeout(_t);_t=setTimeout(run,100);
+}
 function P(){
-  const circ=$('iRound').checked;
+  const circ=_circ;
   const d=circ?Math.max(20,+$('iD').value||300):0;
   return{
     W:circ?d:Math.max(20,+$('iW').value||600),H:circ?d:Math.max(20,+$('iH').value||300),
@@ -450,18 +456,10 @@ function dl(mode){
   URL.revokeObjectURL(a.href);
 }
 
-function applyZoom(){
-  const z=+$('iZ').value/100,el=$('prev').querySelector('svg');
-  if(!el||!LW)return;
-  el.style.width=(LW*z)+'px';el.style.height=(LH*z)+'px';
-  $('vZ').textContent=Math.round(z*100)+'%';
-}
-
 function autoFit(){
-  const c=$('prev');if(!LW)return;
-  const z=Math.min((c.clientWidth-40)/LW,(c.clientHeight-40)/LH,5);
-  $('iZ').value=Math.round(Math.max(10,z*100));
-  applyZoom();
+  const el=$('prev').querySelector('svg');
+  if(!el||!LW)return;
+  el.removeAttribute('style');
 }
 
 /* bindings */
@@ -479,21 +477,32 @@ $('iHF').addEventListener('change',()=>{clearTimeout(_t);_t=setTimeout(run,100)}
 $('iHDynR').addEventListener('change',()=>{clearTimeout(_t);_t=setTimeout(run,100)});
 $('iHDynF').addEventListener('change',()=>{clearTimeout(_t);_t=setTimeout(run,100)});
 $('iSnap').addEventListener('change',()=>{clearTimeout(_t);_t=setTimeout(run,100)});
-$('iRound').addEventListener('change',()=>{const c=$('iRound').checked;$('fRect').style.display=c?'none':'';$('fDiam').style.display=c?'':'none';$('fCorners').style.display=c?'none':'';clearTimeout(_t);_t=setTimeout(run,100)});
+$('btnRect').addEventListener('click',()=>setShape(false));
+$('btnCirc').addEventListener('click',()=>setShape(true));
 $('iD').addEventListener('input',()=>{$('vD').textContent=$('iD').value;clearTimeout(_t);_t=setTimeout(run,400)});
-$('iZ').addEventListener('input',applyZoom);
-$('prev').addEventListener('wheel',e=>{
-  if(!LW)return;
-  e.preventDefault();
-  const z=$('iZ');z.value=Math.max(10,Math.min(500,+z.value+(e.deltaY<0?15:-15)));
-  applyZoom();
-},{passive:false});
 window.addEventListener('resize',()=>{if(LP.length)autoFit()});
+
+/* scroll snap to generator */
+(function(){
+  const gen=$('generator');let snapped=false,st;
+  window.addEventListener('scroll',()=>{
+    clearTimeout(st);
+    st=setTimeout(()=>{
+      const r=gen.getBoundingClientRect();
+      const vh=window.innerHeight;
+      if(!snapped&&r.top>0&&r.top<vh*0.45){
+        snapped=true;gen.scrollIntoView({behavior:'smooth',block:'start'});
+      }else if(r.top>vh*0.5||r.top<-vh*0.3){
+        snapped=false;
+      }
+    },80);
+  });
+})();
 
 /* Generate pattern previews for landing cards */
 function genCard(el,pat,extra){
-  const p={W:160,H:120,R:8,mn:1,mx:3,gr:'center-r',brd:4,rad:2,kerf:0,snap:true,circ:false,...extra};
-  const r=gen(p.W,p.H,p.R,p.mn,p.mx,p.gr,p.brd,p.rad,p.kerf,p.snap,pat,'row',0.48,-0.15,0.72,0.8,1,1,0.3,false,false,5,0.5,3,0.8,0.1,0.13,0.5,false);
+  const p={W:160,H:120,R:8,mn:1,mx:3,gr:'center-r',brd:4,rad:2,kerf:0,snap:true,circ:false,gsz:0.13,...extra};
+  const r=gen(p.W,p.H,p.R,p.mn,p.mx,p.gr,p.brd,p.rad,p.kerf,p.snap,pat,'row',0.48,-0.15,0.72,0.8,1,1,0.3,false,false,5,0.5,3,0.8,0.1,p.gsz,0.5,false);
   el.innerHTML=svg(r.paths,r.lines,p.W,p.H,p.rad,'inline',r.csw,false);
 }
 genCard($('pcCube'),'cube');
@@ -503,6 +512,7 @@ genCard($('pcHeart'),'hearts');
 genCard($('pcStar'),'stars');
 genCard($('pcSlats'),'cubeslats');
 genCard($('pcGyroid'),'gyroid',{R:10,mn:1.5,mx:4});
+genCard($('pcHilbert'),'hilbert',{W:120,H:120,R:8,mn:1,mx:2});
 
 /* Hero preview */
 (function(){
