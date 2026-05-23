@@ -84,7 +84,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 
 /* pattern cards */
 .pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
-.pcard{background:var(--sb);border:1px solid var(--br);border-radius:8px;overflow:hidden;transition:border-color .2s}
+.pcard{background:var(--sb);border:1px solid var(--br);border-radius:8px;overflow:hidden;transition:border-color .2s;cursor:pointer}
 .pcard:hover{border-color:var(--ac)}
 .pcard-img{aspect-ratio:4/3;background:#111;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .pcard-img svg{width:100%;height:100%}
@@ -194,14 +194,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
   <h2>8 Pattern Types</h2>
   <p class="sub">From classic honeycomb to organic gyroid surfaces. Each pattern supports dynamic gradients, kerf compensation, and round or rectangular panels.</p>
   <div class="pgrid">
-    <div class="pcard"><div class="pcard-img" id="pcCube"></div><div class="pcard-body"><h3>Isometric Cubes</h3><p>3D cube illusion from three rhombuses per hex cell</p></div></div>
-    <div class="pcard"><div class="pcard-img" id="pcHoney"></div><div class="pcard-body"><h3>Honeycomb</h3><p>Classic hexagonal grid with uniform or gradient bridges</p></div></div>
-    <div class="pcard"><div class="pcard-img" id="pcParq"></div><div class="pcard-body"><h3>Parquet</h3><p>Alternating horizontal and vertical rectangular slots</p></div></div>
-    <div class="pcard"><div class="pcard-img" id="pcHeart"></div><div class="pcard-body"><h3>Hearts</h3><p>Configurable heart shapes with orientation and size gradient</p></div></div>
-    <div class="pcard"><div class="pcard-img" id="pcStar"></div><div class="pcard-body"><h3>Stars</h3><p>4 to 8-pointed stars with adjustable ray length</p></div></div>
-    <div class="pcard"><div class="pcard-img" id="pcSlats"></div><div class="pcard-body"><h3>Cube Slats</h3><p>Parallelogram slot cutouts within isometric cube faces</p></div></div>
-    <div class="pcard"><div class="pcard-img" id="pcGyroid"></div><div class="pcard-body"><h3>Gyroid</h3><p>Organic minimal surface pattern with flowing curves</p></div></div>
-    <div class="pcard"><div class="pcard-img" id="pcHilbert"></div><div class="pcard-body"><h3>Hilbert Curve</h3><p>Space-filling fractal curve — flexible living hinge</p></div></div>
+    <div class="pcard" data-pat="cube"><div class="pcard-img" id="pcCube"></div><div class="pcard-body"><h3>Isometric Cubes</h3><p>3D cube illusion from three rhombuses per hex cell</p></div></div>
+    <div class="pcard" data-pat="honeycomb"><div class="pcard-img" id="pcHoney"></div><div class="pcard-body"><h3>Honeycomb</h3><p>Classic hexagonal grid with uniform or gradient bridges</p></div></div>
+    <div class="pcard" data-pat="parquet"><div class="pcard-img" id="pcParq"></div><div class="pcard-body"><h3>Parquet</h3><p>Alternating horizontal and vertical rectangular slots</p></div></div>
+    <div class="pcard" data-pat="hearts"><div class="pcard-img" id="pcHeart"></div><div class="pcard-body"><h3>Hearts</h3><p>Configurable heart shapes with orientation and size gradient</p></div></div>
+    <div class="pcard" data-pat="stars"><div class="pcard-img" id="pcStar"></div><div class="pcard-body"><h3>Stars</h3><p>4 to 8-pointed stars with adjustable ray length</p></div></div>
+    <div class="pcard" data-pat="cubeslats"><div class="pcard-img" id="pcSlats"></div><div class="pcard-body"><h3>Cube Slats</h3><p>Parallelogram slot cutouts within isometric cube faces</p></div></div>
+    <div class="pcard" data-pat="gyroid"><div class="pcard-img" id="pcGyroid"></div><div class="pcard-body"><h3>Gyroid</h3><p>Organic minimal surface pattern with flowing curves</p></div></div>
+    <div class="pcard" data-pat="crosshatch"><div class="pcard-img" id="pcCross"></div><div class="pcard-body"><h3>Cross Hatch</h3><p>Diagonal diamond grid — classic woven lattice look</p></div></div>
   </div>
 </section>
 
@@ -278,7 +278,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
         <option value="stars">Stars</option>
         <option value="cubeslats">Cube Slats</option>
         <option value="gyroid">Gyroid</option>
-        <option value="hilbert">Hilbert Curve</option>
+        <option value="crosshatch">Cross Hatch</option>
       </select>
     </div>
     <div class="f" id="fHF" style="display:none"><label>Orientation</label>
@@ -291,7 +291,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
       </select>
     </div>
     <div class="f"><label>Cell radius (mm) <span class="v" id="vC">15</span></label>
-      <input type="range" id="iC" value="15" min="3" max="50" step="0.5"></div>
+      <input type="range" id="iC" value="15" min="3" max="30" step="0.5"></div>
     <div class="f hctl" style="display:none"><label>Bump radius <span class="v" id="vHR">0.48</span></label>
       <input type="range" id="iHR" value="0.48" min="0.15" max="0.8" step="0.01"></div>
     <div class="f hctl" style="display:none"><label>Bump Y offset <span class="v" id="vHB">-0.15</span></label>
@@ -512,7 +512,16 @@ genCard($('pcHeart'),'hearts');
 genCard($('pcStar'),'stars');
 genCard($('pcSlats'),'cubeslats');
 genCard($('pcGyroid'),'gyroid',{R:10,mn:1.5,mx:4});
-genCard($('pcHilbert'),'hilbert',{W:120,H:120,R:8,mn:1,mx:2});
+genCard($('pcCross'),'crosshatch',{R:10,mn:1,mx:3});
+
+/* Pattern card click → switch pattern & scroll to generator */
+document.querySelectorAll('.pcard[data-pat]').forEach(c=>{
+  c.addEventListener('click',()=>{
+    const p=c.dataset.pat, sel=$('iP');
+    sel.value=p; sel.dispatchEvent(new Event('change'));
+    document.getElementById('generator').scrollIntoView({behavior:'smooth'});
+  });
+});
 
 /* Hero preview */
 (function(){

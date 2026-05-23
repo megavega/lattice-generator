@@ -345,128 +345,42 @@ function gen(W,H,R,mn,mx,gr,brd,rad,kerf,snap,pat,hflip,hhr,hbyR,htyR,hspR,hrsM,
         if(cl.length>=3&&pA(cl)>.3)paths.push(pD(cl));
       }
     }
-  }else if(pat==='hilbert'){
-    /* Hilbert curve — space-filling fractal for laser cutting.
-       R controls cell size; order is derived from panel dimensions.
-       mn/mx control bridge width; gsz controls slot width ratio. */
-    const iW=W-2*brd, iH=H-2*brd;
-    const side=Math.min(iW,iH);
-    const order=Math.max(2,Math.min(6,Math.round(Math.log2(side/(R*2)))));
-    const n=1<<order;
-    const cell=side/n;
-    const ox=circ?cx0-side/2:brd+(iW-n*cell)/2;
-    const oy=circ?cy0-side/2:brd+(iH-n*cell)/2;
-
-    function d2xy(nn,d){
-      let x=0,y=0,s=1;
-      while(s<nn){
-        const rx=1&(d/2|0),ry=1&(d^rx);
-        if(ry===0){if(rx===1){x=s-1-x;y=s-1-y;}const t=x;x=y;y=t;}
-        x+=s*rx;y+=s*ry;
-        d=Math.floor(d/4);s*=2;
-      }
-      return[x,y];
+  }else if(pat==='crosshatch'){
+    /* Cross-hatch: two sets of parallel lines at ±45° create diamond cutouts */
+    const alpha=Math.PI/4;
+    const ca=Math.cos(alpha),sa=Math.sin(alpha);
+    const s=R*2;
+    const h2ca=s/(2*ca), h2sa=s/(2*sa);
+    /* center grid on panel */
+    const gcx=W/2, gcy=H/2;
+    const ox=gcx-Math.round(gcx/h2ca)*h2ca;
+    const oy=gcy-Math.round(gcy/h2sa)*h2sa;
+    /* determine grid range from panel corners */
+    const crs=[[brd,brd],[W-brd,brd],[W-brd,H-brd],[brd,H-brd]];
+    let iMn=Infinity,iMx=-Infinity,jMn=Infinity,jMx=-Infinity;
+    for(const[cx2,cy2]of crs){
+      const pi=((cx2-ox)*ca+(cy2-oy)*sa)/s, pj=((cx2-ox)*ca-(cy2-oy)*sa)/s;
+      iMn=Math.min(iMn,pi);iMx=Math.max(iMx,pi);
+      jMn=Math.min(jMn,pj);jMx=Math.max(jMx,pj);
     }
-    const total=n*n,hpts=[];
-    for(let d=0;d<total;d++){
-      const[gx,gy]=d2xy(n,d);
-      hpts.push([ox+(gx+0.5)*cell, oy+(gy+0.5)*cell]);
-    }
-
-    /* Chaikin corner-cutting: smooth 90° turns into curves */
-    function chaikin(pts,iter){
-      let p=pts;
-      for(let it=0;it<iter;it++){
-        const q=[p[0]];
-        for(let i=0;i<p.length-1;i++){
-          const[ax,ay]=p[i],[bx,by]=p[i+1];
-          q.push([ax*0.75+bx*0.25, ay*0.75+by*0.25]);
-          q.push([ax*0.25+bx*0.75, ay*0.25+by*0.75]);
-        }
-        q.push(p[p.length-1]);
-        p=q;
+    iMn=Math.floor(iMn)-1;iMx=Math.ceil(iMx)+1;
+    jMn=Math.floor(jMn)-1;jMx=Math.ceil(jMx)+1;
+    for(let i=iMn;i<iMx;i++){
+      for(let j=jMn;j<jMx;j++){
+        const p1=[(i+j)*h2ca+ox,(i-j)*h2sa+oy];
+        const p2=[(i+1+j)*h2ca+ox,(i+1-j)*h2sa+oy];
+        const p3=[(i+j+2)*h2ca+ox,(i-j)*h2sa+oy];
+        const p4=[(i+j+1)*h2ca+ox,(i-j-1)*h2sa+oy];
+        const dcx=(i+j+1)*h2ca+ox, dcy=(i-j)*h2sa+oy;
+        if(snap&&!snapIn(dcx,dcy,R))continue;
+        const bw=br(dcy,dcx,H,W,mn,mx,gr);
+        const off=bw/2+kerf/2;
+        const dia=[p1,p4,p3,p2];
+        const ins=inset(dia,off);
+        if(!ins.length)continue;
+        const cl=clip(ins);
+        if(cl.length>=3&&pA(cl)>0.5)paths.push(pD(cl));
       }
-      return p;
-    }
-    const smooth=chaikin(hpts,3);
-
-    /* slot width ratio from gsz (0→thin 0.25, 1→wide 0.45) */
-    const slotR=gsz!=null?0.25+gsz*0.2:0.35;
-    const perpW=cell*slotR-kerf/2;
-    if(perpW>=0.15){
-      /* bridge at structural connectors: every 4th segment midpoint
-         (aligns with fractal sub-curve boundaries).
-         Bridge = rectangular band perpendicular to segment direction. */
-      const stride=4;
-      const bridges=[];
-      const bridgeHalf=cell*0.12;
-      for(let i=0;i<hpts.length-1;i++){
-        if((i+1)%stride===0){
-          const mx=(hpts[i][0]+hpts[i+1][0])/2, my=(hpts[i][1]+hpts[i+1][1])/2;
-          const dx=hpts[i+1][0]-hpts[i][0], dy=hpts[i+1][1]-hpts[i][1];
-          const l=Math.hypot(dx,dy)||1;
-          bridges.push({mx,my,ux:dx/l,uy:dy/l});
-        }
-      }
-
-      /* compute normals along smooth curve */
-      const norms=[];
-      for(let i=0;i<smooth.length;i++){
-        let dx,dy;
-        if(i===0){dx=smooth[1][0]-smooth[0][0];dy=smooth[1][1]-smooth[0][1];}
-        else if(i===smooth.length-1){dx=smooth[i][0]-smooth[i-1][0];dy=smooth[i][1]-smooth[i-1][1];}
-        else{dx=smooth[i+1][0]-smooth[i-1][0];dy=smooth[i+1][1]-smooth[i-1][1];}
-        const l=Math.hypot(dx,dy)||1;
-        norms.push([-dy/l,dx/l]);
-      }
-
-      /* build slot polygons, bridging at original segment midpoints */
-      let left=[],right=[];
-      let wasInBridge=true;
-      function addCap(idx){
-        /* add straight perpendicular endcap at point idx */
-        const sx=smooth[idx][0],sy=smooth[idx][1];
-        const nx=norms[idx][0],ny=norms[idx][1];
-        left.push([sx+nx*perpW, sy+ny*perpW]);
-        right.push([sx-nx*perpW, sy-ny*perpW]);
-      }
-      function flushSlot(){
-        if(left.length<2){left=[];right=[];return;}
-        const poly=left.concat(right.reverse());
-        left=[];right=[];
-        const cl=clip(poly);
-        if(cl.length>=3&&pA(cl)>0.3)paths.push(pD(cl));
-      }
-
-      for(let i=0;i<smooth.length;i++){
-        const sx=smooth[i][0],sy=smooth[i][1];
-        let inBridge=i===0||i===smooth.length-1;
-        if(!inBridge){
-          for(let m=0;m<bridges.length;m++){
-            const b=bridges[m];
-            const along=(sx-b.mx)*b.ux+(sy-b.my)*b.uy;
-            const perp=(sx-b.mx)*(-b.uy)+(sy-b.my)*b.ux;
-            if(Math.abs(along)<bridgeHalf&&Math.abs(perp)<cell*0.6){inBridge=true;break;}
-          }
-        }
-        if(inBridge){
-          if(!wasInBridge){
-            /* entering bridge — cap the slot end */
-            addCap(i>0?i-1:i);
-            flushSlot();
-          }
-          wasInBridge=true;
-        }else{
-          if(wasInBridge){
-            /* exiting bridge — cap the slot start */
-            addCap(i);
-          }
-          left.push([sx+norms[i][0]*perpW, sy+norms[i][1]*perpW]);
-          right.push([sx-norms[i][0]*perpW, sy-norms[i][1]*perpW]);
-          wasInBridge=false;
-        }
-      }
-      flushSlot();
     }
   }else{
     const cs=R*S3,rs=R*1.5;
