@@ -122,8 +122,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .sidebar::-webkit-scrollbar{width:6px}
 .sidebar::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
 .logo{font-size:17px;font-weight:700;color:var(--ac);margin-bottom:18px;letter-spacing:-.3px;display:none}
-.sec{margin-bottom:14px}
-.sec-t{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--dm);margin-bottom:6px;font-weight:600}
+.sec{margin-bottom:10px;border:1px solid var(--br);border-radius:8px;padding:10px 12px}
+.sec-t{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--dm);margin-bottom:8px;font-weight:600}
+
+/* toggle switch */
+.tog{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:11px;color:var(--dm);user-select:none}
+.tog input{display:none}
+.tog-track{width:28px;height:16px;border-radius:8px;background:var(--br);position:relative;transition:background .2s;flex-shrink:0}
+.tog-track::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#667;transition:all .2s}
+.tog input:checked+.tog-track{background:var(--ac)}
+.tog input:checked+.tog-track::after{left:14px;background:#fff}
+
+/* inline checkbox row */
+.chk-row{display:flex;gap:10px;margin-top:2px}
 .f{margin-bottom:8px}
 .f label{display:flex;justify-content:space-between;font-size:12px;color:#aab;margin-bottom:2px}
 .f .v{color:var(--ac);font-weight:700;font-variant-numeric:tabular-nums;min-width:40px;text-align:right}
@@ -311,51 +322,55 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
       <div class="pat-btn" data-p="gyroid"><div class="ppv" id="ppGyroid"></div><span>Gyroid</span></div>
       <div class="pat-btn" data-p="crosshatch"><div class="ppv" id="ppCross"></div><span>Cross</span></div>
     </div>
-    <select id="iHF" style="display:none">
-      <option value="down">down</option><option value="up">up</option><option value="alt">alt</option><option value="row" selected>row</option><option value="half">half</option>
-    </select>
-    <div class="f" id="fHF" style="display:none"><label>Orientation</label>
-      <div class="opt-strip">
-        <button class="opt-btn" data-hf="down"><span class="opt-icon">&#9829;&#8595;</span>Down</button>
-        <button class="opt-btn" data-hf="up"><span class="opt-icon">&#9829;&#8593;</span>Up</button>
-        <button class="opt-btn" data-hf="alt"><span class="opt-icon">&#8693;</span>Alt</button>
-        <button class="opt-btn act" data-hf="row"><span class="opt-icon">&#8646;</span>Row</button>
-        <button class="opt-btn" data-hf="half"><span class="opt-icon">&#8597;</span>Half</button>
-      </div>
-    </div>
     <div class="f"><label>Cell radius (mm) <span class="v" id="vC">15</span></label>
       <input type="range" id="iC" value="15" min="3" max="30" step="0.5"></div>
-    <div class="f hctl" style="display:none"><label>Bump radius <span class="v" id="vHR">0.48</span></label>
+  </div>
+  <select id="iHF" style="display:none">
+    <option value="down">down</option><option value="up">up</option><option value="alt">alt</option><option value="row" selected>row</option><option value="half">half</option>
+  </select>
+  <div class="sec" id="fHF" style="display:none">
+    <div class="sec-t">Orientation</div>
+    <div class="opt-strip">
+      <button class="opt-btn" data-hf="down"><span class="opt-icon">&#9829;&#8595;</span>Down</button>
+      <button class="opt-btn" data-hf="up"><span class="opt-icon">&#9829;&#8593;</span>Up</button>
+      <button class="opt-btn" data-hf="alt"><span class="opt-icon">&#8693;</span>Alt</button>
+      <button class="opt-btn act" data-hf="row"><span class="opt-icon">&#8646;</span>Row</button>
+      <button class="opt-btn" data-hf="half"><span class="opt-icon">&#8597;</span>Half</button>
+    </div>
+  </div>
+  <div class="sec hctl" style="display:none">
+    <div class="sec-t">Heart shape</div>
+    <div class="f"><label>Bump radius <span class="v" id="vHR">0.48</span></label>
       <input type="range" id="iHR" value="0.48" min="0.15" max="0.8" step="0.01"></div>
-    <div class="f hctl" style="display:none"><label>Bump Y offset <span class="v" id="vHB">-0.15</span></label>
+    <div class="f"><label>Bump Y offset <span class="v" id="vHB">-0.15</span></label>
       <input type="range" id="iHB" value="-0.15" min="-0.6" max="0.3" step="0.01"></div>
-    <div class="f hctl" style="display:none"><label>Tip Y offset <span class="v" id="vHT">0.72</span></label>
+    <div class="f"><label>Tip Y offset <span class="v" id="vHT">0.72</span></label>
       <input type="range" id="iHT" value="0.72" min="0.2" max="1.2" step="0.01"></div>
-    <div class="f hctl" style="display:none"><label>Bump spread <span class="v" id="vHS">0.8</span></label>
+    <div class="f"><label>Bump spread <span class="v" id="vHS">0.8</span></label>
       <input type="range" id="iHS" value="0.8" min="0.6" max="1" step="0.01"></div>
-    <div class="f hctl" style="display:none"><label>Row spacing <span class="v" id="vHRS">1</span></label>
+    <div class="f"><label>Row spacing <span class="v" id="vHRS">1</span></label>
       <input type="range" id="iHRS" value="1" min="0.5" max="3" step="0.05"></div>
-    <div class="f hctl" style="display:none"><label>Frequency <span class="v" id="vHFR">1</span></label>
+    <div class="f"><label>Frequency <span class="v" id="vHFR">1</span></label>
       <input type="range" id="iHFR" value="1" min="0.5" max="3" step="0.05"></div>
-    <div class="f hctl" style="display:none;margin-top:2px">
-      <label style="cursor:pointer;justify-content:flex-start;gap:6px">
-        <input type="checkbox" id="iHDynR" style="accent-color:var(--ac)"> Dynamic row spacing
-      </label>
+    <div class="chk-row">
+      <label class="tog"><input type="checkbox" id="iHDynR"><span class="tog-track"></span>Dyn rows</label>
+      <label class="tog"><input type="checkbox" id="iHDynF"><span class="tog-track"></span>Dyn freq</label>
     </div>
-    <div class="f hctl" style="display:none;margin-top:2px">
-      <label style="cursor:pointer;justify-content:flex-start;gap:6px">
-        <input type="checkbox" id="iHDynF" style="accent-color:var(--ac)"> Dynamic frequency
-      </label>
-    </div>
-    <div class="f sctl" style="display:none"><label>Points <span class="v" id="vSP">5</span></label>
+  </div>
+  <div class="sec sctl" style="display:none">
+    <div class="sec-t">Star shape</div>
+    <div class="f"><label>Points <span class="v" id="vSP">5</span></label>
       <input type="range" id="iSP" value="5" min="4" max="8" step="1"></div>
-    <div class="f sctl" style="display:none"><label>Ray length <span class="v" id="vSRL">0.5</span></label>
+    <div class="f"><label>Ray length <span class="v" id="vSRL">0.5</span></label>
       <input type="range" id="iSRL" value="0.5" min="0.15" max="0.85" step="0.01"></div>
-    <div class="f csctl" style="display:none"><label>Slots per face <span class="v" id="vCSN">3</span></label>
+  </div>
+  <div class="sec csctl" style="display:none">
+    <div class="sec-t">Slat shape</div>
+    <div class="f"><label>Slots per face <span class="v" id="vCSN">3</span></label>
       <input type="range" id="iCSN" value="3" min="1" max="5" step="1"></div>
-    <div class="f csctl" style="display:none"><label>Slot width <span class="v" id="vCSR">0.8</span></label>
+    <div class="f"><label>Slot width <span class="v" id="vCSR">0.8</span></label>
       <input type="range" id="iCSR" value="0.8" min="0.15" max="1" step="0.05"></div>
-    <div class="f csctl" style="display:none"><label>Edge margin <span class="v" id="vCSM">0.1</span></label>
+    <div class="f"><label>Edge margin <span class="v" id="vCSM">0.1</span></label>
       <input type="range" id="iCSM" value="0.1" min="0" max="0.35" step="0.01"></div>
   </div>
   <div class="sec" id="secBridge">
@@ -389,11 +404,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
       <div class="f" id="fCorners"><label>Corners <span class="v" id="vR">3</span></label>
         <input type="range" id="iR" value="3" min="0" max="20" step="0.5"></div>
     </div>
-    <div class="f" style="margin-top:2px">
-      <label style="cursor:pointer;justify-content:flex-start;gap:6px">
-        <input type="checkbox" id="iSnap" checked style="accent-color:var(--ac)"> Clean edges
-      </label>
-    </div>
+    <label class="tog" style="margin-top:4px">
+      <input type="checkbox" id="iSnap" checked><span class="tog-track"></span>Clean edges
+    </label>
   </div>
   <div class="sec">
     <div class="sec-t">Laser</div>

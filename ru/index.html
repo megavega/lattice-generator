@@ -122,8 +122,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .sidebar::-webkit-scrollbar{width:6px}
 .sidebar::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
 .logo{font-size:17px;font-weight:700;color:var(--ac);margin-bottom:18px;letter-spacing:-.3px;display:none}
-.sec{margin-bottom:14px}
-.sec-t{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--dm);margin-bottom:6px;font-weight:600}
+.sec{margin-bottom:10px;border:1px solid var(--br);border-radius:8px;padding:10px 12px}
+.sec-t{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--dm);margin-bottom:8px;font-weight:600}
+
+/* toggle switch */
+.tog{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:11px;color:var(--dm);user-select:none}
+.tog input{display:none}
+.tog-track{width:28px;height:16px;border-radius:8px;background:var(--br);position:relative;transition:background .2s;flex-shrink:0}
+.tog-track::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:#667;transition:all .2s}
+.tog input:checked+.tog-track{background:var(--ac)}
+.tog input:checked+.tog-track::after{left:14px;background:#fff}
+
+/* inline checkbox row */
+.chk-row{display:flex;gap:10px;margin-top:2px}
 .f{margin-bottom:8px}
 .f label{display:flex;justify-content:space-between;font-size:12px;color:#aab;margin-bottom:2px}
 .f .v{color:var(--ac);font-weight:700;font-variant-numeric:tabular-nums;min-width:40px;text-align:right}
@@ -290,7 +301,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
       <input type="number" id="iD" value="300" min="20" max="3000" step="10"></div>
   </div>
   <div class="sec">
-    <div class="sec-t">Pattern</div>
+    <div class="sec-t">Паттерн</div>
     <select id="iP" style="display:none">
       <option value="cube" selected>Isometric Cubes</option>
       <option value="honeycomb">Honeycomb</option>
@@ -311,60 +322,64 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
       <div class="pat-btn" data-p="gyroid"><div class="ppv" id="ppGyroid"></div><span>Гироид</span></div>
       <div class="pat-btn" data-p="crosshatch"><div class="ppv" id="ppCross"></div><span>Кресты</span></div>
     </div>
-    <select id="iHF" style="display:none">
-      <option value="down">down</option><option value="up">up</option><option value="alt">alt</option><option value="row" selected>row</option><option value="half">half</option>
-    </select>
-    <div class="f" id="fHF" style="display:none"><label>Ориентация</label>
-      <div class="opt-strip">
-        <button class="opt-btn" data-hf="down"><span class="opt-icon">&#9829;&#8595;</span>Вниз</button>
-        <button class="opt-btn" data-hf="up"><span class="opt-icon">&#9829;&#8593;</span>Вверх</button>
-        <button class="opt-btn" data-hf="alt"><span class="opt-icon">&#8693;</span>Черед</button>
-        <button class="opt-btn act" data-hf="row"><span class="opt-icon">&#8646;</span>Ряд</button>
-        <button class="opt-btn" data-hf="half"><span class="opt-icon">&#8597;</span>Полов</button>
-      </div>
-    </div>
-    <div class="f"><label>Cell radius (mm) <span class="v" id="vC">15</span></label>
+    <div class="f"><label>Радиус ячейки (мм) <span class="v" id="vC">15</span></label>
       <input type="range" id="iC" value="15" min="3" max="30" step="0.5"></div>
-    <div class="f hctl" style="display:none"><label>Bump radius <span class="v" id="vHR">0.48</span></label>
+  </div>
+  <select id="iHF" style="display:none">
+    <option value="down">down</option><option value="up">up</option><option value="alt">alt</option><option value="row" selected>row</option><option value="half">half</option>
+  </select>
+  <div class="sec" id="fHF" style="display:none">
+    <div class="sec-t">Ориентация</div>
+    <div class="opt-strip">
+      <button class="opt-btn" data-hf="down"><span class="opt-icon">&#9829;&#8595;</span>Вниз</button>
+      <button class="opt-btn" data-hf="up"><span class="opt-icon">&#9829;&#8593;</span>Вверх</button>
+      <button class="opt-btn" data-hf="alt"><span class="opt-icon">&#8693;</span>Черед</button>
+      <button class="opt-btn act" data-hf="row"><span class="opt-icon">&#8646;</span>Ряд</button>
+      <button class="opt-btn" data-hf="half"><span class="opt-icon">&#8597;</span>Полов</button>
+    </div>
+  </div>
+  <div class="sec hctl" style="display:none">
+    <div class="sec-t">Форма сердца</div>
+    <div class="f"><label>Радиус бугра <span class="v" id="vHR">0.48</span></label>
       <input type="range" id="iHR" value="0.48" min="0.15" max="0.8" step="0.01"></div>
-    <div class="f hctl" style="display:none"><label>Bump Y offset <span class="v" id="vHB">-0.15</span></label>
+    <div class="f"><label>Смещение бугра Y <span class="v" id="vHB">-0.15</span></label>
       <input type="range" id="iHB" value="-0.15" min="-0.6" max="0.3" step="0.01"></div>
-    <div class="f hctl" style="display:none"><label>Tip Y offset <span class="v" id="vHT">0.72</span></label>
+    <div class="f"><label>Смещение кончика Y <span class="v" id="vHT">0.72</span></label>
       <input type="range" id="iHT" value="0.72" min="0.2" max="1.2" step="0.01"></div>
-    <div class="f hctl" style="display:none"><label>Bump spread <span class="v" id="vHS">0.8</span></label>
+    <div class="f"><label>Ширина бугра <span class="v" id="vHS">0.8</span></label>
       <input type="range" id="iHS" value="0.8" min="0.6" max="1" step="0.01"></div>
-    <div class="f hctl" style="display:none"><label>Row spacing <span class="v" id="vHRS">1</span></label>
+    <div class="f"><label>Расстояние рядов <span class="v" id="vHRS">1</span></label>
       <input type="range" id="iHRS" value="1" min="0.5" max="3" step="0.05"></div>
-    <div class="f hctl" style="display:none"><label>Frequency <span class="v" id="vHFR">1</span></label>
+    <div class="f"><label>Частота <span class="v" id="vHFR">1</span></label>
       <input type="range" id="iHFR" value="1" min="0.5" max="3" step="0.05"></div>
-    <div class="f hctl" style="display:none;margin-top:2px">
-      <label style="cursor:pointer;justify-content:flex-start;gap:6px">
-        <input type="checkbox" id="iHDynR" style="accent-color:var(--ac)"> Dynamic row spacing
-      </label>
+    <div class="chk-row">
+      <label class="tog"><input type="checkbox" id="iHDynR"><span class="tog-track"></span>Дин. ряды</label>
+      <label class="tog"><input type="checkbox" id="iHDynF"><span class="tog-track"></span>Дин. частота</label>
     </div>
-    <div class="f hctl" style="display:none;margin-top:2px">
-      <label style="cursor:pointer;justify-content:flex-start;gap:6px">
-        <input type="checkbox" id="iHDynF" style="accent-color:var(--ac)"> Dynamic frequency
-      </label>
-    </div>
-    <div class="f sctl" style="display:none"><label>Points <span class="v" id="vSP">5</span></label>
+  </div>
+  <div class="sec sctl" style="display:none">
+    <div class="sec-t">Форма звезды</div>
+    <div class="f"><label>Лучей <span class="v" id="vSP">5</span></label>
       <input type="range" id="iSP" value="5" min="4" max="8" step="1"></div>
-    <div class="f sctl" style="display:none"><label>Ray length <span class="v" id="vSRL">0.5</span></label>
+    <div class="f"><label>Длина луча <span class="v" id="vSRL">0.5</span></label>
       <input type="range" id="iSRL" value="0.5" min="0.15" max="0.85" step="0.01"></div>
-    <div class="f csctl" style="display:none"><label>Slots per face <span class="v" id="vCSN">3</span></label>
+  </div>
+  <div class="sec csctl" style="display:none">
+    <div class="sec-t">Форма ламелей</div>
+    <div class="f"><label>Прорезей на грань <span class="v" id="vCSN">3</span></label>
       <input type="range" id="iCSN" value="3" min="1" max="5" step="1"></div>
-    <div class="f csctl" style="display:none"><label>Slot width <span class="v" id="vCSR">0.8</span></label>
+    <div class="f"><label>Ширина прорези <span class="v" id="vCSR">0.8</span></label>
       <input type="range" id="iCSR" value="0.8" min="0.15" max="1" step="0.05"></div>
-    <div class="f csctl" style="display:none"><label>Edge margin <span class="v" id="vCSM">0.1</span></label>
+    <div class="f"><label>Отступ от края <span class="v" id="vCSM">0.1</span></label>
       <input type="range" id="iCSM" value="0.1" min="0" max="0.35" step="0.01"></div>
   </div>
   <div class="sec" id="secBridge">
-    <div class="sec-t" id="secBridgeT">Bridge (dynamic)</div>
-    <div class="f" id="fBrN"><label>Min bridge (mm) <span class="v" id="vN">1.5</span></label>
+    <div class="sec-t" id="secBridgeT">Перемычки (динамические)</div>
+    <div class="f" id="fBrN"><label>Мин перемычка (мм) <span class="v" id="vN">1.5</span></label>
       <input type="range" id="iN" value="1.5" min="0.3" max="25" step="0.1"></div>
-    <div class="f" id="fBrX"><label>Max bridge (mm) <span class="v" id="vX">6</span></label>
+    <div class="f" id="fBrX"><label>Макс перемычка (мм) <span class="v" id="vX">6</span></label>
       <input type="range" id="iX" value="6" min="0.3" max="25" step="0.1"></div>
-    <div class="f" id="fSzMin" style="display:none"><label>Min size <span class="v" id="vHSz">0.3</span></label>
+    <div class="f" id="fSzMin" style="display:none"><label>Мин размер <span class="v" id="vHSz">0.3</span></label>
       <input type="range" id="iHSz" value="0.3" min="0" max="0.95" step="0.05"></div>
     <select id="iG" style="display:none">
       <option value="uniform">Uniform</option><option value="center-v" selected>center-v</option><option value="edges-v">edges-v</option><option value="top-bottom">top-bottom</option><option value="bottom-top">bottom-top</option><option value="center-r">center-r</option><option value="edges-r">edges-r</option>
@@ -382,22 +397,20 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
     </div>
   </div>
   <div class="sec">
-    <div class="sec-t">Frame</div>
+    <div class="sec-t">Рамка</div>
     <div class="row">
-      <div class="f"><label>Border <span class="v" id="vB">8</span></label>
+      <div class="f"><label>Отступ <span class="v" id="vB">8</span></label>
         <input type="range" id="iB" value="8" min="0" max="30" step="0.5"></div>
-      <div class="f" id="fCorners"><label>Corners <span class="v" id="vR">3</span></label>
+      <div class="f" id="fCorners"><label>Углы <span class="v" id="vR">3</span></label>
         <input type="range" id="iR" value="3" min="0" max="20" step="0.5"></div>
     </div>
-    <div class="f" style="margin-top:2px">
-      <label style="cursor:pointer;justify-content:flex-start;gap:6px">
-        <input type="checkbox" id="iSnap" checked style="accent-color:var(--ac)"> Clean edges
-      </label>
-    </div>
+    <label class="tog" style="margin-top:4px">
+      <input type="checkbox" id="iSnap" checked><span class="tog-track"></span>Ровные края
+    </label>
   </div>
   <div class="sec">
-    <div class="sec-t">Laser</div>
-    <div class="f"><label>Kerf (mm) <span class="v" id="vK">0</span></label>
+    <div class="sec-t">Лазер</div>
+    <div class="f"><label>Kerf (мм) <span class="v" id="vK">0</span></label>
       <input type="range" id="iK" value="0" min="0" max="1" step="0.02"></div>
   </div>
   <div class="btns">
