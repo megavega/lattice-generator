@@ -129,8 +129,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .f .v{color:var(--ac);font-weight:700;font-variant-numeric:tabular-nums;min-width:40px;text-align:right}
 .f input[type=number],.f select{width:100%;padding:5px 7px;background:var(--ib);border:1px solid var(--br);color:#fff;border-radius:4px;font-size:13px;outline:none}
 .f input[type=number]:focus,.f select:focus{border-color:var(--ac)}
-.f input[type=range]{width:100%;accent-color:var(--ac);cursor:pointer}
+/* modern range sliders */
+.f input[type=range]{width:100%;cursor:pointer;-webkit-appearance:none;appearance:none;height:6px;border-radius:3px;background:var(--br);outline:none;margin:6px 0 2px}
+.f input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--ac);border:2px solid #fff;box-shadow:0 0 6px rgba(233,69,96,.4);cursor:pointer;transition:box-shadow .15s}
+.f input[type=range]::-webkit-slider-thumb:hover{box-shadow:0 0 10px rgba(233,69,96,.7)}
+.f input[type=range]::-moz-range-thumb{width:14px;height:14px;border-radius:50%;background:var(--ac);border:2px solid #fff;box-shadow:0 0 6px rgba(233,69,96,.4);cursor:pointer}
+.f input[type=range]::-moz-range-track{height:6px;border-radius:3px;background:var(--br)}
 .f select{cursor:pointer}
+
+/* option button strips (orientation, gradient) */
+.opt-strip{display:flex;gap:4px;flex-wrap:wrap}
+.opt-btn{flex:1;min-width:0;padding:5px 2px;background:var(--ib);border:1.5px solid var(--br);border-radius:5px;cursor:pointer;text-align:center;font-size:10px;color:var(--dm);transition:all .15s;font-family:inherit;line-height:1.2}
+.opt-btn:hover{border-color:var(--ac);color:var(--tx)}
+.opt-btn.act{border-color:var(--ac);background:rgba(233,69,96,.15);color:var(--ac);font-weight:600}
+.opt-btn .opt-icon{display:block;font-size:16px;margin-bottom:1px}
+.opt-btn .opt-vis{display:block;height:14px;margin:0 auto 2px;border-radius:2px;width:90%}
 .row{display:flex;gap:8px}
 .row .f{flex:1}
 .btns{display:flex;flex-direction:column;gap:6px;margin-top:16px}
@@ -298,14 +311,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
       <div class="pat-btn" data-p="gyroid"><div class="ppv" id="ppGyroid"></div><span>Гироид</span></div>
       <div class="pat-btn" data-p="crosshatch"><div class="ppv" id="ppCross"></div><span>Кресты</span></div>
     </div>
-    <div class="f" id="fHF" style="display:none"><label>Orientation</label>
-      <select id="iHF">
-        <option value="down">All &#9829; &#8595; tip down</option>
-        <option value="up">All &#9829; &#8593; tip up</option>
-        <option value="alt">&#8597; Alternate per heart</option>
-        <option value="row" selected>&#8597; Alternate per row</option>
-        <option value="half">&#8597; Top half &#8593; / Bottom half &#8595;</option>
-      </select>
+    <select id="iHF" style="display:none">
+      <option value="down">down</option><option value="up">up</option><option value="alt">alt</option><option value="row" selected>row</option><option value="half">half</option>
+    </select>
+    <div class="f" id="fHF" style="display:none"><label>Ориентация</label>
+      <div class="opt-strip">
+        <button class="opt-btn" data-hf="down"><span class="opt-icon">&#9829;&#8595;</span>Вниз</button>
+        <button class="opt-btn" data-hf="up"><span class="opt-icon">&#9829;&#8593;</span>Вверх</button>
+        <button class="opt-btn" data-hf="alt"><span class="opt-icon">&#8693;</span>Черед</button>
+        <button class="opt-btn act" data-hf="row"><span class="opt-icon">&#8646;</span>Ряд</button>
+        <button class="opt-btn" data-hf="half"><span class="opt-icon">&#8597;</span>Полов</button>
+      </div>
     </div>
     <div class="f"><label>Cell radius (mm) <span class="v" id="vC">15</span></label>
       <input type="range" id="iC" value="15" min="3" max="30" step="0.5"></div>
@@ -350,16 +366,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
       <input type="range" id="iX" value="6" min="0.3" max="25" step="0.1"></div>
     <div class="f" id="fSzMin" style="display:none"><label>Min size <span class="v" id="vHSz">0.3</span></label>
       <input type="range" id="iHSz" value="0.3" min="0" max="0.95" step="0.05"></div>
-    <div class="f"><label>Gradient</label>
-      <select id="iG">
-        <option value="uniform">Uniform (max)</option>
-        <option value="center-v" selected>&#8597; Center thick</option>
-        <option value="edges-v">&#8597; Edges thick</option>
-        <option value="top-bottom">&#8595; Top thick &#8594; Bottom thin</option>
-        <option value="bottom-top">&#8593; Bottom thick &#8594; Top thin</option>
-        <option value="center-r">&#9678; Radial: center thick</option>
-        <option value="edges-r">&#9678; Radial: edges thick</option>
-      </select>
+    <select id="iG" style="display:none">
+      <option value="uniform">Uniform</option><option value="center-v" selected>center-v</option><option value="edges-v">edges-v</option><option value="top-bottom">top-bottom</option><option value="bottom-top">bottom-top</option><option value="center-r">center-r</option><option value="edges-r">edges-r</option>
+    </select>
+    <div class="f"><label>Градиент</label>
+      <div class="opt-strip" id="gradStrip">
+        <button class="opt-btn" data-gr="uniform" title="Равномерный"><span class="opt-vis" style="background:#8899aa"></span>Ровн</button>
+        <button class="opt-btn act" data-gr="center-v" title="Центр толще"><span class="opt-vis" style="background:linear-gradient(0deg,#334,#e94560,#334)"></span>&#8597;Ц</button>
+        <button class="opt-btn" data-gr="edges-v" title="Края толще"><span class="opt-vis" style="background:linear-gradient(0deg,#e94560,#334,#e94560)"></span>&#8597;К</button>
+        <button class="opt-btn" data-gr="top-bottom" title="Сверху вниз"><span class="opt-vis" style="background:linear-gradient(180deg,#e94560,#334)"></span>&#8595;</button>
+        <button class="opt-btn" data-gr="bottom-top" title="Снизу вверх"><span class="opt-vis" style="background:linear-gradient(0deg,#e94560,#334)"></span>&#8593;</button>
+        <button class="opt-btn" data-gr="center-r" title="Радиал: центр"><span class="opt-vis" style="background:radial-gradient(circle,#e94560,#334)"></span>&#9678;Ц</button>
+        <button class="opt-btn" data-gr="edges-r" title="Радиал: края"><span class="opt-vis" style="background:radial-gradient(circle,#334,#e94560)"></span>&#9678;К</button>
+      </div>
     </div>
   </div>
   <div class="sec">
@@ -491,6 +510,24 @@ $('iP').addEventListener('change',()=>{const v=$('iP').value,h=v==='hearts',s=v=
   $(i).addEventListener('input',()=>{$(v).textContent=$(i).value;clearTimeout(_t);_t=setTimeout(run,400)});
 });
 $('iHF').addEventListener('change',()=>{clearTimeout(_t);_t=setTimeout(run,100)});
+/* orientation buttons */
+document.querySelectorAll('[data-hf]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('[data-hf]').forEach(x=>x.classList.remove('act'));
+    b.classList.add('act');
+    $('iHF').value=b.dataset.hf;
+    $('iHF').dispatchEvent(new Event('change'));
+  });
+});
+/* gradient buttons */
+document.querySelectorAll('[data-gr]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('[data-gr]').forEach(x=>x.classList.remove('act'));
+    b.classList.add('act');
+    $('iG').value=b.dataset.gr;
+    $('iG').dispatchEvent(new Event('change'));
+  });
+});
 $('iHDynR').addEventListener('change',()=>{clearTimeout(_t);_t=setTimeout(run,100)});
 $('iHDynF').addEventListener('change',()=>{clearTimeout(_t);_t=setTimeout(run,100)});
 $('iSnap').addEventListener('change',()=>{clearTimeout(_t);_t=setTimeout(run,100)});
