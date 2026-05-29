@@ -146,6 +146,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
 .prev svg{display:block;max-width:100%;max-height:100%;width:auto;height:auto}
 .hint{color:#444;font-size:14px;align-self:center}
 
+/* pattern picker */
+.pat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:4px}
+.pat-btn{background:var(--ib);border:2px solid var(--br);border-radius:6px;cursor:pointer;padding:4px;text-align:center;transition:border-color .15s,background .15s}
+.pat-btn:hover{border-color:var(--ac)}
+.pat-btn.act{border-color:var(--ac);background:rgba(233,69,96,.12)}
+.pat-btn svg{display:block;width:100%;aspect-ratio:4/3;border-radius:3px}
+.pat-btn span{display:block;font-size:9px;color:var(--dm);margin-top:3px;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pat-btn.act span{color:var(--ac)}
+
 /* footer */
 .foot{padding:32px 28px;text-align:center;color:var(--dm);font-size:12px;border-top:1px solid var(--br)}
 .foot a{color:var(--ac);text-decoration:none}
@@ -269,17 +278,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;b
   </div>
   <div class="sec">
     <div class="sec-t">Pattern</div>
-    <div class="f"><label>Type</label>
-      <select id="iP">
-        <option value="cube" selected>Isometric Cubes</option>
-        <option value="honeycomb">Honeycomb</option>
-        <option value="parquet">Parquet</option>
-        <option value="hearts">Hearts</option>
-        <option value="stars">Stars</option>
-        <option value="cubeslats">Cube Slats</option>
-        <option value="gyroid">Gyroid</option>
-        <option value="crosshatch">Cross Hatch</option>
-      </select>
+    <select id="iP" style="display:none">
+      <option value="cube" selected>Isometric Cubes</option>
+      <option value="honeycomb">Honeycomb</option>
+      <option value="parquet">Parquet</option>
+      <option value="hearts">Hearts</option>
+      <option value="stars">Stars</option>
+      <option value="cubeslats">Cube Slats</option>
+      <option value="gyroid">Gyroid</option>
+      <option value="crosshatch">Cross Hatch</option>
+    </select>
+    <div class="pat-grid">
+      <div class="pat-btn act" data-p="cube"><div class="ppv" id="ppCube"></div><span>Cubes</span></div>
+      <div class="pat-btn" data-p="honeycomb"><div class="ppv" id="ppHoney"></div><span>Honeycomb</span></div>
+      <div class="pat-btn" data-p="parquet"><div class="ppv" id="ppParq"></div><span>Parquet</span></div>
+      <div class="pat-btn" data-p="hearts"><div class="ppv" id="ppHeart"></div><span>Hearts</span></div>
+      <div class="pat-btn" data-p="stars"><div class="ppv" id="ppStar"></div><span>Stars</span></div>
+      <div class="pat-btn" data-p="cubeslats"><div class="ppv" id="ppSlats"></div><span>Slats</span></div>
+      <div class="pat-btn" data-p="gyroid"><div class="ppv" id="ppGyroid"></div><span>Gyroid</span></div>
+      <div class="pat-btn" data-p="crosshatch"><div class="ppv" id="ppCross"></div><span>Cross</span></div>
     </div>
     <div class="f" id="fHF" style="display:none"><label>Orientation</label>
       <select id="iHF">
@@ -514,11 +531,40 @@ genCard($('pcSlats'),'cubeslats');
 genCard($('pcGyroid'),'gyroid',{R:10,mn:1.5,mx:4});
 genCard($('pcCross'),'crosshatch',{R:10,mn:1,mx:3});
 
+/* Pattern picker mini previews */
+function genMini(el,pat,extra){
+  const p={W:80,H:60,R:5,mn:0.8,mx:1.5,gr:'uniform',brd:2,rad:1,kerf:0,snap:true,circ:false,gsz:0.1,...extra};
+  const r=gen(p.W,p.H,p.R,p.mn,p.mx,p.gr,p.brd,p.rad,p.kerf,p.snap,pat,'row',0.48,-0.15,0.72,0.8,1,1,0.3,false,false,5,0.5,3,0.8,0.1,p.gsz,0.5,false);
+  el.innerHTML=svg(r.paths,r.lines,p.W,p.H,p.rad,'inline',r.csw,false);
+}
+genMini($('ppCube'),'cube');
+genMini($('ppHoney'),'honeycomb');
+genMini($('ppParq'),'parquet');
+genMini($('ppHeart'),'hearts');
+genMini($('ppStar'),'stars');
+genMini($('ppSlats'),'cubeslats');
+genMini($('ppGyroid'),'gyroid',{R:6,mn:1,mx:2});
+genMini($('ppCross'),'crosshatch',{R:6,mn:0.6,mx:1.5});
+
+/* Pattern picker click */
+document.querySelectorAll('.pat-btn[data-p]').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.pat-btn').forEach(x=>x.classList.remove('act'));
+    b.classList.add('act');
+    $('iP').value=b.dataset.p;
+    $('iP').dispatchEvent(new Event('change'));
+  });
+});
+
 /* Pattern card click → switch pattern & scroll to generator */
 document.querySelectorAll('.pcard[data-pat]').forEach(c=>{
   c.addEventListener('click',()=>{
-    const p=c.dataset.pat, sel=$('iP');
-    sel.value=p; sel.dispatchEvent(new Event('change'));
+    const p=c.dataset.pat;
+    /* also highlight the picker button */
+    document.querySelectorAll('.pat-btn').forEach(x=>x.classList.remove('act'));
+    const btn=document.querySelector(`.pat-btn[data-p="${p}"]`);
+    if(btn)btn.classList.add('act');
+    $('iP').value=p; $('iP').dispatchEvent(new Event('change'));
     document.getElementById('generator').scrollIntoView({behavior:'smooth'});
   });
 });
